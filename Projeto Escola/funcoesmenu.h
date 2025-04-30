@@ -1,0 +1,12 @@
+#include <stdbool.h>
+int VerificadorNumeroInteiro();
+int menuprincipal();
+int menuAluno();
+int menuProfessor();
+int menuDisciplina();
+int CAD_DisciplinaSemestre();
+int MenuAtualizacaoDisciplina();
+void PadronizarNome();
+void ListarInput();
+bool validarCpf();
+void PadronizarNomeProfessor();
