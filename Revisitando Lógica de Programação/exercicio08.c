@@ -12,7 +12,7 @@ int main()
     if (numero >= 0)
     {
         while(i <= numero)
-	{
+	    {
             fatorial *= i;
             i++;
         }
