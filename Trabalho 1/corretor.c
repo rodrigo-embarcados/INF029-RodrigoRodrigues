@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 
-//renomeie o arquivo do include abaixo para PrimeiroUltimoNomeMATRICULA.h
+//renomeie o arquivo do include abaixo para trabalho1.h
 #include "RodrigoRodrigues20232160034.h"
 
 void testSomar();    //função utilizada para testes
@@ -162,7 +162,7 @@ void testQ4()
     for (i = 0; i < 30; i++)
     {
         posicoes[i] = -1;
-    }RodrigoRodrigues20232160034.h
+    }
     strcpy(strTexto, "Olá, o mundo é muito grande. Tem muitas pessoas, e muitos problemas");
     strcpy(strBusca, "mui");
     printf("%d\n", q4(strTexto, strBusca, posicoes) == 3);

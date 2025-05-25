@@ -293,4 +293,3 @@ DataQuebrada quebraData(char data[]){
     
   return dq;
 }
-
