@@ -78,6 +78,7 @@ int teste(int a)
 
   return val;
 }
+//Funções implementadas
 
 char tira_acento_letra(uint8_t byte_ms)
 {
@@ -144,6 +145,29 @@ char *tira_acento_string(char *texto)
   }
   return texto;
 }
+int checaBissexto(char *ano) 
+{
+  int ano_int = atoi(ano);
+  return (ano_int % 4 == 0 && ano_int % 100 != 0) || (ano_int % 400 == 0);
+}
+int checaData(char *dia, char *mes, char *ano) 
+{
+  int dia_int = atoi(dia), mes_int = atoi(mes), ano_int = atoi(ano);   
+  if(ano_int < 0 || mes_int < 1 || mes_int > 12 || dia_int < 1) return 0;
+    int diasNoMes;
+    switch(mes_int) 
+    {
+      case 2:
+        diasNoMes = checaBissexto(ano) ? 29 : 28;
+        break;
+      case 4: case 6: case 9: case 11:
+        diasNoMes = 30;
+        break;
+      default:
+        diasNoMes = 31;
+    }
+    return dia_int <= diasNoMes;
+}
 
 /*
  Q1 = validar data
@@ -158,18 +182,76 @@ char *tira_acento_string(char *texto)
     Não utilizar funções próprias de string (ex: strtok)
     pode utilizar strlen para pegar o tamanho da string
  */
+// quebrar a string data em strings sDia, sMes, sAno
+// printf("%s\n", data);
 int q1(char data[])
 {
   int datavalida = 1;
-
-  // quebrar a string data em strings sDia, sMes, sAno
-
-  // printf("%s\n", data);
-
-  if (datavalida)
-    return 1;
-  else
-    return 0;
+  char sDia[3], sMes[3], sAno[5];
+  int pos = 0;
+  for(int i = 0; i < 5; i++)
+  {
+    if (i < 2)
+    {
+      sDia[i] = '\0';
+      sMes[i] = '\0';
+    }
+    sAno[i] = '\0';
+  }
+  if(strlen(data) >= 6)
+  {
+    int i = 0;
+    while(data[pos] != '/')
+    {
+      if(pos < 2)
+      {
+        sDia[i] = data[pos];
+        pos++;
+        i++;
+      }
+      else
+      {
+        datavalida = 0;
+        break;
+      }
+    }
+    pos++;
+    i = 0;
+    while(data[pos] != '/')
+    {
+      if(pos < 5)
+      {
+        sMes[i] = data[pos];
+        pos++;
+        i++;
+      }
+      else
+      {
+        datavalida = 0;
+        break;
+      }
+    }
+    pos++;
+    i = 0;
+    while(data[pos] != '\0')
+    {
+      if(pos < 10)
+      {
+        sAno[i] = data[pos];
+        pos++;
+        i++;
+      }
+      else
+      {
+        datavalida = 0;
+        break;
+      }
+    }
+  }
+  else datavalida = 0;
+  if(checaData(sDia, sMes, sAno) == 0) datavalida = 0;
+  if(datavalida) return 1;
+  else return 0;
 }
 
 /*
