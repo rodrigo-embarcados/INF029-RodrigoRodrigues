@@ -168,7 +168,57 @@ int checaData(char *dia, char *mes, char *ano)
     }
     return dia_int <= diasNoMes;
 }
-
+void separa_data(char *data, char *sDia, char *sMes, char *sAno)
+{
+  int pos = 0, i = 0;
+  if(strlen(data) >= 6)
+  {
+    while(data[pos] != '/')
+    {
+      if(pos < 2)
+      {
+        sDia[i] = data[pos];
+        pos++;
+        i++;
+      }
+    }
+    pos++;
+    i = 0;
+    while(data[pos] != '/')
+    {
+      if(pos < 5)
+      {
+        sMes[i] = data[pos];
+        pos++;
+        i++;
+      }
+    }
+    pos++;
+    i = 0;
+    while(data[pos] != '\0')
+    {
+      if(pos < 10)
+      {
+        sAno[i] = data[pos];
+        pos++;
+        i++;
+      }
+    }
+    sDia[2] = '\0';
+    sMes[2] = '\0';
+    sAno[4] = '\0';
+  }
+}
+int dias_no_mes(int mes, int ano)
+{
+    int dias[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    if (mes == 2)
+    {
+        if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0))
+            return 29;
+    }
+    return dias[mes - 1];
+}
 /*
  Q1 = validar data
 @objetivo
@@ -287,9 +337,60 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
   else
   {
     // verifique se a data final não é menor que a data inicial
-
+    char sDia1[3], sMes1[3], sAno1[5];
+    char sDia2[3], sMes2[3], sAno2[5];
+    int iDia1, iMes1, iAno1;
+    int iDia2, iMes2, iAno2;
+    separa_data(datainicial, sDia1, sMes1, sAno1);
+    separa_data(datafinal, sDia2, sMes2, sAno2);
+    iDia1 = atoi(sDia1);
+    iMes1 = atoi(sMes1);
+    iAno1 = atoi(sAno1);
+    iDia2 = atoi(sDia2);
+    iMes2 = atoi(sMes2);
+    iAno2 = atoi(sAno2);
+    if(iAno1 > iAno2)
+    {
+      dma.retorno = 4;
+      return dma;
+    }
+    else if(iAno1 == iAno2)
+    {
+      if(iMes1 > iMes2)
+      {
+        dma.retorno = 4;
+        return dma;
+      }
+      else if(iMes1 == iMes2)
+      {
+        if(iDia1 > iDia2)
+        {
+          dma.retorno = 4;
+          return dma;
+        }
+      }
+    }
     // calcule a distancia entre as datas
-
+    dma.qtdAnos = iAno2 - iAno1;
+    dma.qtdMeses = iMes2 - iMes1;
+    dma.qtdDias = iDia2 - iDia1;
+    if (dma.qtdMeses < 0)
+    {
+      dma.qtdAnos--;
+      dma.qtdMeses += 12;
+    }
+    if (dma.qtdDias < 0)
+    {
+      dma.qtdMeses--;
+      int mes_ant = iMes2 - 1;
+      int ano_ref = iAno2;
+      if (mes_ant == 0)
+      {
+          mes_ant = 12;
+          ano_ref--;
+      }
+      dma.qtdDias += dias_no_mes(mes_ant, ano_ref);
+    }
     // se tudo der certo
     dma.retorno = 1;
     return dma;
