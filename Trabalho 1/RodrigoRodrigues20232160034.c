@@ -518,7 +518,47 @@ int q5(int num)
 
 int q6(int numerobase, int numerobusca)
 {
-  int qtdOcorrencias;
+  int qtdOcorrencias = 0, temp, cont = 1;
+  temp = numerobase;
+  while (temp != 0)
+  {
+    temp /= 10;
+    cont++;
+  }
+  char *num_base = malloc((cont) * sizeof(char));
+  sprintf(num_base, "%d", numerobase);
+  cont = 1;
+  temp = numerobusca;
+  while (temp != 0)
+  {
+    temp /= 10;
+    cont++;
+  }
+  char *num_busca = malloc((cont) * sizeof(char));
+  sprintf(num_busca, "%d", numerobusca);
+  for (int i = 0; i <= strlen(num_base) - strlen(num_busca);)
+  {
+    int achou = 1;
+    for (int j = 0; j < strlen(num_busca); j++)
+    {
+      if (num_base[i + j] != num_busca[j])
+      {
+        achou = 0;
+        break;
+      }
+    }
+    if (achou)
+    {
+      qtdOcorrencias++;
+      i += strlen(num_busca);
+    }
+    else
+    {
+      i++;
+    }
+  }
+  free(num_busca);
+  free(num_base);
   return qtdOcorrencias;
 }
 
@@ -534,8 +574,43 @@ int q6(int numerobase, int numerobusca)
 
 int q7(char matriz[8][10], char palavra[5])
 {
-  int achou;
-  return achou;
+  int linhas = 8;
+  int colunas = 10;
+  int tam_palavra = strlen(palavra);
+  int dir_linha[8] = {0, 0, 1, -1, 1, 1, -1, -1};
+  int dir_coluna[8] = {1, -1, 0, 0, 1, -1, 1, -1};
+  for (int i = 0; i < linhas; i++)
+  {
+    for (int j = 0; j < colunas; j++)
+    {
+      for (int d = 0; d < 8; d++)
+      {
+        int achou = 1;
+        int k = 0;
+        while (k < tam_palavra)
+        {
+          int nova_linha = i + k * dir_linha[d];
+          int nova_coluna = j + k * dir_coluna[d];
+          if (nova_linha < 0 || nova_linha >= linhas || nova_coluna < 0 || nova_coluna >= colunas)
+          {
+            achou = 0;
+            break;
+          }
+          if (matriz[nova_linha][nova_coluna] != palavra[k])
+          {
+            achou = 0;
+            break;
+          }
+          k++;
+        }
+        if (achou)
+        {
+          return 1;
+        }
+      }
+    }
+  }
+  return 0;
 }
 
 DataQuebrada quebraData(char data[])
