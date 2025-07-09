@@ -59,7 +59,6 @@ int criarEstruturaAuxiliar(int posicao, int tamanho)
 
     nova->tamanho = tamanho;
     nova->quantidade = 0;
-    nova->posicao = posicao;
     vetorPrincipal[posicao] = nova;
 
     return SUCESSO;

@@ -19,7 +19,6 @@ typedef struct
     int *dados;      
     int tamanho;
     int quantidade;
-    int posicao;
 } EstruturaAuxiliar;
 
 int criarEstruturaAuxiliar(int posicao, int tamanho);
